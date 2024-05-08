@@ -3,11 +3,25 @@ import { IUserRepository } from "./IUserRepository";
 import { prisma } from "@/lib/prisma";
 
 export class PrismaUserRepository implements IUserRepository {
-  create(data: User): Promise<User> {
-    return;
+  async create(data: User): Promise<User> {
+    const user = await prisma.user.create({
+      data: {
+        email: data.email,
+        name: data.name,
+        password: data.password,
+        avatar: data.avatar,
+      },
+    });
+    return user;
   }
+
   async findByEmail(email: string): Promise<User> {
-    
-   return
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    return user;
   }
 }
