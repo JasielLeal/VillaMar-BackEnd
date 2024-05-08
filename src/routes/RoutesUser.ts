@@ -7,3 +7,4 @@ const userController = new UserController();
 export const routesUser = Router();
 
 routesUser.post("/", authenticated, userController.create);
+routesUser.post("/session", userController.authenticate);

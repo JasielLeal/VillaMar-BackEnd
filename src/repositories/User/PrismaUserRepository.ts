@@ -1,6 +1,7 @@
 import { User } from "@/entities/User";
 import { IUserRepository } from "./IUserRepository";
 import { prisma } from "@/lib/prisma";
+import { ErrorUserAlreadyNotExist } from "@/erros/ErrorUserAlreadyExist";
 
 export class PrismaUserRepository implements IUserRepository {
   async create(data: User): Promise<User> {
@@ -16,6 +17,7 @@ export class PrismaUserRepository implements IUserRepository {
   }
 
   async findByEmail(email: string): Promise<User> {
+
     const user = await prisma.user.findUnique({
       where: {
         email,
@@ -23,5 +25,25 @@ export class PrismaUserRepository implements IUserRepository {
     });
 
     return user;
+  }
+
+  async findById(id: string): Promise<User> {
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return user;
+  }
+
+  async delete(id: string): Promise<User> {
+    await prisma.user.delete({
+      where: {
+        id,
+      },
+    });
+
+    return;
   }
 }

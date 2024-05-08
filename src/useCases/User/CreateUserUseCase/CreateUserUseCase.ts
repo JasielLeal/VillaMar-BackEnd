@@ -1,6 +1,8 @@
 import { IUserRepository } from "@/repositories/User/IUserRepository";
 import { CreateUserDTO } from "./CreateUserDTO";
-import { ErrorUserAlreadyExist } from "@/erros/ErrorUserAlreadyExist";
+import { ErrorUserAlreadyNotExist } from "@/erros/ErrorUserAlreadyExist";
+import { ErrorUserAlreadyExist } from "@/erros/ErrorUserAlreadyNotExist";
+import { hash } from "bcryptjs";
 
 export class CreateUserUseCase {
   constructor(private userRepository: IUserRepository) {}
@@ -12,10 +14,12 @@ export class CreateUserUseCase {
       throw new ErrorUserAlreadyExist();
     }
 
+    const passwordHash = await hash(data.password, 6)
+
     const user = await this.userRepository.create({
       name: data.name,
       email: data.email,
-      password: data.password,
+      password: passwordHash,
       avatar: data.avatar,
       isOwner: data.isOwner,
       createdAt: data.createdAt,
