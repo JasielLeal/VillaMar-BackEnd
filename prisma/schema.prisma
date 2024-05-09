@@ -22,17 +22,17 @@ model User {
   isOwner    String     @default("Admin")
   avatar     String
   createdAt  DateTime   @default(now())
-  Schedule   Schedule[]
+  Schedule   Reserve[]
 }
 
 model Room {
   id         String   @id @default(uuid())
   name       String
   scheduleId String
-  schedule   Schedule @relation(references: [id], fields: [scheduleId])
+  schedule   Reserve @relation(references: [id], fields: [scheduleId])
 }
 
-model Schedule {
+model Reserve {
   id        String   @id @default(uuid())
   name      String
   checkIn   DateTime

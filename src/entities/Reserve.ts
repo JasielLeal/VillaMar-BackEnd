@@ -1,7 +1,7 @@
 import { uuid } from "uuidv4";
 import { Room } from "./Room";
 
-export class Schedule {
+export class Reserve {
   public readonly id?: string;
   public name: string;
   public checkIn: Date;
@@ -11,9 +11,9 @@ export class Schedule {
   public status: string;
   public createdAt?: Date;
   public userId: string;
-  public room: Room[]
+  public room: Room[];
 
-  constructor(props: Omit<Schedule, "id">, id?: string) {
+  constructor(props: Omit<Reserve, "id">, id?: string) {
     Object.assign(this, props);
 
     if (!id) {
