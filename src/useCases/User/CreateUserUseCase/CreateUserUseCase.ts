@@ -18,6 +18,7 @@ export class CreateUserUseCase {
 
     const user = await this.userRepository.create({
       name: data.name,
+      secondName: data.secondName,
       email: data.email,
       password: passwordHash,
       avatar: data.avatar,
