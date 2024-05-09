@@ -14,12 +14,34 @@ datasource db {
 }
 
 model User {
+  id         String     @id @default(uuid())
+  name       String
+  secondName String
+  email      String     @unique
+  password   String
+  isOwner    String     @default("Admin")
+  avatar     String
+  createdAt  DateTime   @default(now())
+  Schedule   Schedule[]
+}
+
+model Room {
+  id         String   @id @default(uuid())
+  name       String
+  scheduleId String
+  schedule   Schedule @relation(references: [id], fields: [scheduleId])
+}
+
+model Schedule {
   id        String   @id @default(uuid())
   name      String
-  secondName String
-  email     String   @unique
-  password  String
-  isOwner  String   @default("Admin")
-  avatar    String
+  checkIn   DateTime
+  checkOut  DateTime
+  value     String
+  FromWhere String
+  status    String
   createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(references: [id], fields: [userId])
+  Room      Room[]
 }
