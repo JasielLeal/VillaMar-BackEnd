@@ -2,7 +2,6 @@ import { PrismaUserRepository } from "@/repositories/User/PrismaUserRepository";
 import { Request, Response } from "express";
 import { CreateUserUseCase } from "./CreateUserUseCase/CreateUserUseCase";
 import { CreateUserDTO } from "./CreateUserUseCase/CreateUserDTO";
-import { ErrorUserAlreadyNotExist } from "@/erros/ErrorUserAlreadyExist";
 import { ErrorUserAlreadyExist } from "@/erros/ErrorUserAlreadyNotExist";
 import { AuthenticateUseCase } from "./AuthenticateUseCase/AuthenticateUseCase";
 import { AuthenticateDTO } from "./AuthenticateUseCase/AuthenticateDTO";

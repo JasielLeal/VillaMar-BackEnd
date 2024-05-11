@@ -3,8 +3,7 @@ import { uuid } from "uuidv4";
 export class Room {
   public readonly id?: string;
   public name: string;
-  public status: string;
-  public scheduleId: string
+  public userId: string;
 
   constructor(props: Omit<Room, "id">, id?: string) {
     Object.assign(this, props);
