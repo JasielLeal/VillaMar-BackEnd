@@ -3,7 +3,6 @@ import { uuid } from "uuidv4";
 export class Reserve {
   public readonly id?: string;
   public name: string;
-  public roomName: string;
   public roomId: string;
   public checkIn: Date;
   public checkOut: Date;
@@ -19,5 +18,6 @@ export class Reserve {
     if (!id) {
       this.id = uuid();
     }
+    
   }
 }
