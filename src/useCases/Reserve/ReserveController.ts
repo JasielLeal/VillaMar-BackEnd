@@ -3,6 +3,8 @@ import { Request, Response } from "express";
 import { CreateReserveUseCase } from "./CreateReserveUseCase/CreateReserveUseCase";
 import { CreateReserveDTO } from "./CreateReserveUseCase/CreateReserveDTO";
 import { PrismaRoomRepository } from "@/repositories/Room/PrismaRoomRepository";
+import { ReservationsOfTheDayUseCase } from "./ReservationsOfTheDay/ReservationsOfTheDayUseCase";
+import { ErrorDayNotFound } from "@/erros/Reserve/ErrorDayNotFound";
 
 export class ReserveController {
   async create(request: Request, response: Response) {
@@ -38,6 +40,33 @@ export class ReserveController {
 
       return response.status(201).send(reserve);
     } catch (err) {
+      return response.status(500).send({ error: err.message });
+    }
+  }
+
+  async FindByDay(request: Request, response: Response){
+
+    const {day} = request.params
+    if(!day){
+      throw new ErrorDayNotFound()
+    }
+
+    try{
+
+      const prismaReserveRepository = new PrismaReserveRepository()
+      const reservationsOfTheDayUseCase = new ReservationsOfTheDayUseCase(prismaReserveRepository)
+
+      const reserves = await reservationsOfTheDayUseCase.execute({
+        day
+      })
+
+      return response.status(201).send(reserves)
+
+    }catch (err) {
+
+      if(err instanceof ErrorDayNotFound){
+        return response.status(400).send({ error: err.message });
+      }
       return response.status(500).send({ error: err.message });
     }
   }

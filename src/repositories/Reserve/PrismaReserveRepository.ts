@@ -1,7 +1,6 @@
 import { Reserve } from "@/entities/Reserve";
 import { IReserveRepository } from "./IReserveRepository";
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
 
 export class PrismaReserveRepository implements IReserveRepository {
   async create(data: Reserve): Promise<Reserve> {
@@ -19,5 +18,15 @@ export class PrismaReserveRepository implements IReserveRepository {
     });
 
     return reserve;
+  }
+
+  async findByDay(day: string): Promise<Reserve[]> {
+    const reserves = await prisma.reserve.findMany({
+      where: {
+        checkIn: day,
+      },
+    });
+
+    return reserves;
   }
 }

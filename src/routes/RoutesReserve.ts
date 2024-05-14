@@ -7,3 +7,5 @@ const reserveController = new ReserveController();
 export const routesReserve = Router();
 
 routesReserve.post("/create", authenticated, reserveController.create);
+
+routesReserve.get('/:day', reserveController.FindByDay)
