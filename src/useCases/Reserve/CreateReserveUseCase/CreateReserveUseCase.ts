@@ -12,12 +12,14 @@ export class CreateReserveUseCase {
 
   async execute({
     FromWhere,
+    cpf,
     checkIn,
     checkOut,
     name,
     roomId,
     userId,
     value,
+    status
   }: CreateReserveDTO) {
     const roomExist = await this.roomRepository.findById(roomId);
 
@@ -38,6 +40,8 @@ export class CreateReserveUseCase {
       roomId,
       userId,
       value,
+      cpf,
+      status
     });
 
     return reserve;

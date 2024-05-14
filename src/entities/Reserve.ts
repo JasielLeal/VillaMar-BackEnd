@@ -4,6 +4,8 @@ export class Reserve {
   public readonly id?: string;
   public name: string;
   public roomId: string;
+  public cpf: string;
+  public status: boolean;
   public checkIn: Date;
   public checkOut: Date;
   public value: string;
@@ -17,6 +19,5 @@ export class Reserve {
     if (!id) {
       this.id = uuid();
     }
-    
   }
 }

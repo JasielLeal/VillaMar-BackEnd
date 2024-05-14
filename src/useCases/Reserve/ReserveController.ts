@@ -22,8 +22,9 @@ export class ReserveController {
         checkOut,
         name,
         roomId,
-        status,
         value,
+        cpf,
+        status
       }: CreateReserveDTO = request.body;
       const userId = request.user.id;
 
@@ -33,9 +34,10 @@ export class ReserveController {
         FromWhere,
         name,
         roomId,
-        status,
+        cpf,
         userId,
         value,
+        status
       });
 
       return response.status(201).send(reserve);
