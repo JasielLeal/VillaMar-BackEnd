@@ -35,7 +35,6 @@ model Reserve {
   checkOut  DateTime
   value     String
   FromWhere String
-  status    String
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id]) // Relacionamento: Uma reserva pertence a um usuário
   userId    String

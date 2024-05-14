@@ -8,7 +8,6 @@ export class Reserve {
   public checkOut: Date;
   public value: string;
   public FromWhere: string;
-  public status: string;
   public createdAt?: Date;
   public userId: string;
 

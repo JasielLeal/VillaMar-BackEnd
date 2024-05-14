@@ -11,7 +11,6 @@ export class PrismaReserveRepository implements IReserveRepository {
         checkIn: data.checkIn,
         checkOut: data.checkOut,
         FromWhere: data.FromWhere,
-        status: data.status,
         value: data.value,
         userId: data.userId,
       },

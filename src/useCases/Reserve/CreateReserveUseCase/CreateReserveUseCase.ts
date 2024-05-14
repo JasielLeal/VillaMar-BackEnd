@@ -16,7 +16,6 @@ export class CreateReserveUseCase {
     checkOut,
     name,
     roomId,
-    status,
     userId,
     value,
   }: CreateReserveDTO) {
@@ -37,7 +36,6 @@ export class CreateReserveUseCase {
       FromWhere,
       name,
       roomId,
-      status,
       userId,
       value,
     });

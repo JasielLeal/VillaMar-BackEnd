@@ -6,7 +6,6 @@ export interface CreateReserveDTO {
   checkOut: Date;
   value: string;
   FromWhere: string;
-  status: string;
   createdAt?: Date;
   userId: string;
 }
