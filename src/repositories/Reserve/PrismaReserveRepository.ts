@@ -1,13 +1,12 @@
 import { Reserve } from "@/entities/Reserve";
 import { IReserveRepository } from "./IReserveRepository";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/middleware/lib/prisma";
 
 export class PrismaReserveRepository implements IReserveRepository {
   async create(data: Reserve): Promise<Reserve> {
     const reserve = await prisma.reserve.create({
       data: {
         name: data.name,
-        roomId: data.roomId,
         checkIn: data.checkIn,
         checkOut: data.checkOut,
         FromWhere: data.FromWhere,
@@ -15,6 +14,9 @@ export class PrismaReserveRepository implements IReserveRepository {
         status: data.status,
         value: data.value,
         userId: data.userId,
+        roomName: data.roomName,
+        userName: data.userName,
+        statusReseva: data.statusReseva,
       },
     });
 

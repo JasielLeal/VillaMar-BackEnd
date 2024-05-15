@@ -22,32 +22,22 @@ model User {
   isOwner    String    @default("Admin")
   avatar     String
   createdAt  DateTime  @default(now())
-  rooms      Room[] // Relacionamento: Um usuário pode criar vários quartos
   reserves   Reserve[] // Relacionamento: Um usuário pode fazer várias reservas
 }
 
 model Reserve {
-  id        String   @id @default(uuid())
-  name      String
-  roomId    String
-  cpf       String
-  status    Boolean
-  room      Room     @relation(references: [id], fields: [roomId])
-  checkIn   DateTime
-  checkOut  DateTime
-  value     String
-  FromWhere String
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id]) // Relacionamento: Uma reserva pertence a um usuário
-  userId    String
+  id           String   @id @default(uuid())
+  name         String
+  cpf          String
+  status       Boolean
+  statusReseva String   @default("Reservado")
+  roomName     String
+  checkIn      DateTime
+  checkOut     DateTime
+  value        String
+  FromWhere    String
+  createdAt    DateTime @default(now())
+  userName     String
+  user         User     @relation(fields: [userId], references: [id]) // Relacionamento: Uma reserva pertence a um usuário
+  userId       String
 }
-
-model Room {
-  id      String    @id @default(uuid())
-  name    String
-  User    User      @relation(fields: [userId], references: [id])
-  userId  String
-  Reserve Reserve[]
-}
-
-//quando chegar criar entidade e repositories de reserva e room

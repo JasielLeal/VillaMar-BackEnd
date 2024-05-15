@@ -1,7 +1,6 @@
 import { User } from "@/entities/User";
 import { IUserRepository } from "./IUserRepository";
-import { prisma } from "@/lib/prisma";
-import { ErrorUserAlreadyNotExist } from "@/erros/ErrorUserAlreadyExist";
+import { prisma } from "@/middleware/lib/prisma";
 
 export class PrismaUserRepository implements IUserRepository {
   async create(data: User): Promise<User> {
@@ -18,7 +17,6 @@ export class PrismaUserRepository implements IUserRepository {
   }
 
   async findByEmail(email: string): Promise<User> {
-
     const user = await prisma.user.findUnique({
       where: {
         email,

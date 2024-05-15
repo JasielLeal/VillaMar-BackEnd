@@ -3,9 +3,11 @@ import { uuid } from "uuidv4";
 export class Reserve {
   public readonly id?: string;
   public name: string;
-  public roomId: string;
+  public userName: string;
+  public roomName: string;
   public cpf: string;
   public status: boolean;
+  public statusReseva: string;
   public checkIn: Date;
   public checkOut: Date;
   public value: string;

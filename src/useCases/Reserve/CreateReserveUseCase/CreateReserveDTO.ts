@@ -1,8 +1,10 @@
 export interface CreateReserveDTO {
   id?: string;
   name: string;
-  roomId: string;
+  userName: string;
+  roomName?: string;
   status: boolean;
+  statusReseva: string;
   cpf: string;
   checkIn: Date;
   checkOut: Date;
