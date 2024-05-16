@@ -10,3 +10,4 @@ routesReserve.post("/create", authenticated, reserveController.create);
 
 routesReserve.get("/:day", reserveController.FindByDay);
 
+routesReserve.post("/updatestatus", reserveController.UpdateStatus);

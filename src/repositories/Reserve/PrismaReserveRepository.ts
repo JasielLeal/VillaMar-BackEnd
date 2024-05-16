@@ -32,4 +32,28 @@ export class PrismaReserveRepository implements IReserveRepository {
 
     return reserves;
   }
+
+  async findById(id: string): Promise<Reserve> {
+    const reserve = await prisma.reserve.findUnique({
+      where: {
+        id
+      }
+    });
+
+    return reserve;
+  }
+
+  async updateStatus(id: string): Promise<Reserve> {
+    const reserve = await prisma.reserve.update({
+      where: {
+        id,
+      },
+      data: {
+        statusReseva: "Finalizado",
+        status: true
+      },
+    });
+
+    return reserve;
+  }
 }
