@@ -6,4 +6,5 @@ export interface IUserRepository {
   delete(id: string): Promise<User> | null;
   create(data: User): Promise<User>;
   getAll(): Promise<User[]>;
+  checkingIsTheOwners(id: string): Promise<User> | null;
 }

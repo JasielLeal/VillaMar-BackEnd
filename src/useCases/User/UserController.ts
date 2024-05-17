@@ -11,6 +11,7 @@ import { GetAllUsersUseCase } from "./GetAllUsersUseCase/GetAllUsersUseCase";
 import { DeleteUserDTO } from "./DeleteUserUseCase/DeleteUserDTO";
 import { DeleteUserUseCase } from "./DeleteUserUseCase/DeleteUserUseCase";
 import { ErrorUserAlreadyNotExist } from "@/erros/ErrorUserAlreadyExist";
+import { ErrorWithoutPermission } from "@/erros/ErrorWithoutPermission";
 
 export class UserController {
   async create(request: Request, response: Response) {
@@ -97,6 +98,11 @@ export class UserController {
   async delete(request: Request, response: Response) {
     try {
       const { id }: DeleteUserDTO = request.body;
+      const userId = request.user.id
+
+      if(id == userId){
+        throw new ErrorWithoutPermission();
+      }
 
       const prismaUserRepository = new PrismaUserRepository();
       const deleteUserUseCase = new DeleteUserUseCase(prismaUserRepository);
@@ -106,6 +112,9 @@ export class UserController {
       return response.status(201).send();
     } catch (err) {
       if (err instanceof ErrorUserAlreadyNotExist) {
+        return response.status(400).send({ error: err.message });
+      }
+      if (err instanceof ErrorWithoutPermission) {
         return response.status(400).send({ error: err.message });
       }
       return response.status(500).send({ error: err.message });

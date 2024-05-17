@@ -51,4 +51,11 @@ export class PrismaUserRepository implements IUserRepository {
 
     return users;
   }
+
+  async checkingIsTheOwners(id: string): Promise<User> {
+    
+    const user = await prisma.user.findUnique
+    
+    return
+  }
 }
