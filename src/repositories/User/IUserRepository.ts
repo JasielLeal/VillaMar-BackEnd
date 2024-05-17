@@ -5,4 +5,5 @@ export interface IUserRepository {
   findById(id: string): Promise<User> | null;
   delete(id: string): Promise<User> | null;
   create(data: User): Promise<User>;
+  getAll(): Promise<User[]>;
 }

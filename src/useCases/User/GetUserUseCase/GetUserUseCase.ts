@@ -10,6 +10,8 @@ export class GetUserUseCase {
       throw new Error("Usuário não encontrado.");
     }
 
-    return user;
+    const { password, ...userWithoutPassword } = user;
+
+    return userWithoutPassword;
   }
 }

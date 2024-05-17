@@ -9,3 +9,4 @@ export const routesUser = Router();
 routesUser.post("/", userController.create);
 routesUser.post("/session", userController.authenticate);
 routesUser.get("/getuser", authenticated, userController.getUser);
+routesUser.get("/getallusers", authenticated, userController.getAllUsers);

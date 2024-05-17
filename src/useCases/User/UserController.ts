@@ -7,6 +7,7 @@ import { AuthenticateUseCase } from "./AuthenticateUseCase/AuthenticateUseCase";
 import { AuthenticateDTO } from "./AuthenticateUseCase/AuthenticateDTO";
 import { ErrorCreditalsInvalid } from "@/erros/ErrorCredetialsInvalid";
 import { GetUserUseCase } from "./GetUserUseCase/GetUserUseCase";
+import { GetAllUsersUseCase } from "./GetAllUsersUseCase/GetAllUsersUseCase";
 
 export class UserController {
   async create(request: Request, response: Response) {
@@ -67,6 +68,23 @@ export class UserController {
 
       return response.status(201).send(user);
     } catch (err) {
+      if (err instanceof ErrorUserAlreadyExist) {
+        return response.status(400).send({ error: err.message });
+      }
+      return response.status(500).send({ error: err.message });
+    }
+  }
+
+  async getAllUsers(request: Request, response: Response){
+    try{
+      const prismaUserRepository = new PrismaUserRepository();
+      const getAllUsersUseCase = new GetAllUsersUseCase(prismaUserRepository)
+
+      const users = await getAllUsersUseCase.execute()
+
+      return response.status(201).send(users)
+    
+    }catch (err) {
       if (err instanceof ErrorUserAlreadyExist) {
         return response.status(400).send({ error: err.message });
       }
