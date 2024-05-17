@@ -8,6 +8,9 @@ import { AuthenticateDTO } from "./AuthenticateUseCase/AuthenticateDTO";
 import { ErrorCreditalsInvalid } from "@/erros/ErrorCredetialsInvalid";
 import { GetUserUseCase } from "./GetUserUseCase/GetUserUseCase";
 import { GetAllUsersUseCase } from "./GetAllUsersUseCase/GetAllUsersUseCase";
+import { DeleteUserDTO } from "./DeleteUserUseCase/DeleteUserDTO";
+import { DeleteUserUseCase } from "./DeleteUserUseCase/DeleteUserUseCase";
+import { ErrorUserAlreadyNotExist } from "@/erros/ErrorUserAlreadyExist";
 
 export class UserController {
   async create(request: Request, response: Response) {
@@ -75,17 +78,34 @@ export class UserController {
     }
   }
 
-  async getAllUsers(request: Request, response: Response){
-    try{
+  async getAllUsers(request: Request, response: Response) {
+    try {
       const prismaUserRepository = new PrismaUserRepository();
-      const getAllUsersUseCase = new GetAllUsersUseCase(prismaUserRepository)
+      const getAllUsersUseCase = new GetAllUsersUseCase(prismaUserRepository);
 
-      const users = await getAllUsersUseCase.execute()
+      const users = await getAllUsersUseCase.execute();
 
-      return response.status(201).send(users)
-    
-    }catch (err) {
+      return response.status(201).send(users);
+    } catch (err) {
       if (err instanceof ErrorUserAlreadyExist) {
+        return response.status(400).send({ error: err.message });
+      }
+      return response.status(500).send({ error: err.message });
+    }
+  }
+
+  async delete(request: Request, response: Response) {
+    try {
+      const { id }: DeleteUserDTO = request.body;
+
+      const prismaUserRepository = new PrismaUserRepository();
+      const deleteUserUseCase = new DeleteUserUseCase(prismaUserRepository);
+
+      await deleteUserUseCase.execute({ id });
+
+      return response.status(201).send();
+    } catch (err) {
+      if (err instanceof ErrorUserAlreadyNotExist) {
         return response.status(400).send({ error: err.message });
       }
       return response.status(500).send({ error: err.message });
