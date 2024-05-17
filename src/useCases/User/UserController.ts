@@ -6,6 +6,7 @@ import { ErrorUserAlreadyExist } from "@/erros/ErrorUserAlreadyNotExist";
 import { AuthenticateUseCase } from "./AuthenticateUseCase/AuthenticateUseCase";
 import { AuthenticateDTO } from "./AuthenticateUseCase/AuthenticateDTO";
 import { ErrorCreditalsInvalid } from "@/erros/ErrorCredetialsInvalid";
+import { GetUserUseCase } from "./GetUserUseCase/GetUserUseCase";
 
 export class UserController {
   async create(request: Request, response: Response) {
@@ -14,7 +15,8 @@ export class UserController {
 
       const createUserUseCase = new CreateUserUseCase(prismaUserRepository);
 
-      const { name, email, password, avatar, secondName }: CreateUserDTO = request.body;
+      const { name, email, password, avatar, secondName }: CreateUserDTO =
+        request.body;
 
       const user = await createUserUseCase.execute({
         email,
@@ -48,6 +50,24 @@ export class UserController {
       return response.status(201).send({ token });
     } catch (err) {
       if (err instanceof ErrorCreditalsInvalid) {
+        return response.status(400).send({ error: err.message });
+      }
+      return response.status(500).send({ error: err.message });
+    }
+  }
+
+  async getUser(request: Request, response: Response) {
+    try {
+      const { id } = request.user;
+
+      const prismaUserRepository = new PrismaUserRepository();
+      const getUserUseCase = new GetUserUseCase(prismaUserRepository);
+
+      const user = await getUserUseCase.execute(id);
+
+      return response.status(201).send(user);
+    } catch (err) {
+      if (err instanceof ErrorUserAlreadyExist) {
         return response.status(400).send({ error: err.message });
       }
       return response.status(500).send({ error: err.message });
