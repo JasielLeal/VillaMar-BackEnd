@@ -10,7 +10,6 @@ export class PrismaUserRepository implements IUserRepository {
         name: data.name,
         secondName: data.secondName,
         password: data.password,
-        avatar: data.avatar,
       },
     });
     return user;
@@ -37,13 +36,13 @@ export class PrismaUserRepository implements IUserRepository {
   }
 
   async delete(id: string): Promise<User> {
-    await prisma.user.delete({
+    const reserve = await prisma.user.delete({
       where: {
         id,
       },
     });
 
-    return;
+    return reserve;
   }
 
   async getAll(): Promise<User[]> {
@@ -53,9 +52,8 @@ export class PrismaUserRepository implements IUserRepository {
   }
 
   async checkingIsTheOwners(id: string): Promise<User> {
-    
-    const user = await prisma.user.findUnique
-    
-    return
+    const user = await prisma.user.findUnique;
+
+    return;
   }
 }

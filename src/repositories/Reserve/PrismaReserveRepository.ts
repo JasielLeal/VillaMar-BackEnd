@@ -56,4 +56,15 @@ export class PrismaReserveRepository implements IReserveRepository {
 
     return reserve;
   }
+
+  async delete(id: string): Promise<Reserve> {
+
+    const reserve = await prisma.reserve.delete({
+      where: {
+        id
+      },
+    });
+
+    return reserve;
+  }
 }

@@ -7,7 +7,6 @@ export class User {
   public email: string;
   public password: string;
   public isOwner?: string;
-  public avatar?: string;
   public createdAt?: Date;
 
   constructor(props: Omit<User, "id">, id?: string) {

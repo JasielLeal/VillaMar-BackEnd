@@ -28,7 +28,6 @@ export class UserController {
         name,
         secondName,
         password,
-        avatar,
       });
 
       return response.status(201).send({ user });

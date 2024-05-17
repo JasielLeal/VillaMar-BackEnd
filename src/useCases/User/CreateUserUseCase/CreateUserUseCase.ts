@@ -21,7 +21,6 @@ export class CreateUserUseCase {
       secondName: data.secondName,
       email: data.email,
       password: passwordHash,
-      avatar: data.avatar,
       isOwner: data.isOwner,
       createdAt: data.createdAt,
     });
