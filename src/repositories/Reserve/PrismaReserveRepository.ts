@@ -58,13 +58,43 @@ export class PrismaReserveRepository implements IReserveRepository {
   }
 
   async delete(id: string): Promise<Reserve> {
-
     const reserve = await prisma.reserve.delete({
       where: {
-        id
+        id,
       },
     });
 
     return reserve;
+  }
+
+  async totalMonthlyBooking(): Promise<string> {
+    const startOfMonth = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      1
+    );
+    const endOfMonth = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+      999
+    ); // Fim do último dia do mês
+
+    const reserves = await prisma.reserve.count({
+      where: {
+        statusReseva: "Finalizado",
+
+        // Filtrar as reservas criadas ou atualizadas no mês atual
+        createdAt: {
+          gte: startOfMonth,
+          lte: endOfMonth,
+        },
+      },
+    });
+
+    return reserves.toString()
   }
 }

@@ -8,7 +8,7 @@ export const routesReserve = Router();
 
 routesReserve.post("/create", authenticated, reserveController.create);
 
-routesReserve.get("/:day", authenticated, reserveController.FindByDay);
+routesReserve.get("/day/:day", authenticated, reserveController.FindByDay);
 
 routesReserve.post(
   "/updatestatus",
@@ -17,3 +17,4 @@ routesReserve.post(
 );
 
 routesReserve.delete("/delete", authenticated, reserveController.Delete);
+routesReserve.get("/monthlybooking", authenticated, reserveController.totalMonthlyBooking);
