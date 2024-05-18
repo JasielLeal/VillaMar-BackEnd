@@ -7,7 +7,8 @@ import { ErrorDayNotFound } from "@/erros/Reserve/ErrorDayNotFound";
 import { UpdateStatusUseCase } from "./UpdateStatus/UpdateStatusUseCase";
 import { DeleteReserveUseCase } from "./DeleteReserveUseCase/DeleteReserveUseCase";
 import { ErrorReserveNotFound } from "@/erros/Reserve/ErrorReserveNotFound";
-import { TotalMonthlyBookingUseCase} from "./totalMonthlyBookingUseCase/totalMonthlyBookingUseCase";
+import { TotalMonthlyBookingUseCase } from "./totalMonthlyBookingUseCase/totalMonthlyBookingUseCase";
+import { TotalMonthlyAmountUseCase } from "./TotalMonthlyAmountUseCase/TotalMonthlyAmountUseCase";
 
 export class ReserveController {
   async create(request: Request, response: Response) {
@@ -122,6 +123,20 @@ export class ReserveController {
 
       const reserves = await totalMonthlyBookingUseCase.execute();
 
+      return response.status(201).send(reserves);
+    } catch (err) {
+      return response.status(500).send({ error: err.message });
+    }
+  }
+
+  async TotalMonthlyAmount(request: Request, response: Response) {
+    try {
+      const prismaReserveRepository = new PrismaReserveRepository();
+      const totalMonthlyAmount = new TotalMonthlyAmountUseCase(
+        prismaReserveRepository
+      );
+
+      const reserves = await totalMonthlyAmount.execute();
       return response.status(201).send(reserves);
     } catch (err) {
       return response.status(500).send({ error: err.message });

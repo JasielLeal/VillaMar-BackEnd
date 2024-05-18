@@ -95,6 +95,45 @@ export class PrismaReserveRepository implements IReserveRepository {
       },
     });
 
-    return reserves.toString()
+    return reserves.toString();
+  }
+
+  async totalMonthlyAmount(): Promise<string> {
+
+    
+
+    const startOfMonth = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      1
+    );
+    const endOfMonth = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+      999
+    ); // Fim do último dia do mês
+
+    const reserve = await prisma.reserve.findMany({
+      where: {
+        createdAt: {
+          gte: startOfMonth,
+          lte: endOfMonth,
+        },
+      },
+      select: {
+        value: true,
+      },
+    });
+
+    const total = reserve.reduce(
+      (sum, reserve) => sum + Number(reserve.value),
+      0
+    );
+
+    return total.toString();
   }
 }

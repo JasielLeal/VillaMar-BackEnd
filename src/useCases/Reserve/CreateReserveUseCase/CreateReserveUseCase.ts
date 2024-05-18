@@ -1,11 +1,10 @@
 import { IReserveRepository } from "@/repositories/Reserve/IReserveRepository";
 import { CreateReserveDTO } from "./CreateReserveDTO";
 import { DateConverter } from "@/utils/DateConverte";
+import { parseCurrencyToNumber } from "@/utils/NumberConverte";
 
 export class CreateReserveUseCase {
-  constructor(
-    private reserveRepository: IReserveRepository,
-  ) {}
+  constructor(private reserveRepository: IReserveRepository) {}
 
   async execute({
     FromWhere,
@@ -18,11 +17,12 @@ export class CreateReserveUseCase {
     status,
     userName,
     roomName,
-    statusReseva
+    statusReseva,
   }: CreateReserveDTO) {
-
     const isoCheckIn = DateConverter.toISO(checkIn);
     const isoCheckOut = DateConverter.toISO(checkOut);
+
+    const newValue = parseCurrencyToNumber(value);
 
     const reserve = await this.reserveRepository.create({
       checkIn: new Date(isoCheckIn),
@@ -30,12 +30,12 @@ export class CreateReserveUseCase {
       FromWhere,
       name,
       userId,
-      value,
+      value: newValue.toString(),
       cpf,
       status,
       roomName,
       userName,
-      statusReseva
+      statusReseva,
     });
 
     return reserve;

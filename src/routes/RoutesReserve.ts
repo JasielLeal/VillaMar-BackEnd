@@ -17,4 +17,14 @@ routesReserve.post(
 );
 
 routesReserve.delete("/delete", authenticated, reserveController.Delete);
-routesReserve.get("/monthlybooking", authenticated, reserveController.totalMonthlyBooking);
+
+routesReserve.get(
+  "/monthlybooking",
+  authenticated,
+  reserveController.totalMonthlyBooking
+);
+routesReserve.get(
+  "/monthlyamount",
+  authenticated,
+  reserveController.TotalMonthlyAmount
+);
