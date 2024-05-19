@@ -34,3 +34,9 @@ routesReserve.get(
   authenticated,
   reserveController.TotalConfirmedReservations
 );
+
+routesReserve.get(
+  "/bookingsbychannel",
+  authenticated,
+  reserveController.MonthlyBookingsByChannel
+);

@@ -9,4 +9,5 @@ export interface IReserveRepository {
   totalMonthlyBooking(): Promise<string>;
   totalMonthlyAmount(): Promise<string>;
   TotalConfirmedReservations(): Promise<string>;
+  MonthlyBookingsByChannel(): Promise<{ company: string; value: number }[]>;
 }

@@ -10,6 +10,7 @@ import { ErrorReserveNotFound } from "@/erros/Reserve/ErrorReserveNotFound";
 import { TotalMonthlyBookingUseCase } from "./totalMonthlyBookingUseCase/totalMonthlyBookingUseCase";
 import { TotalMonthlyAmountUseCase } from "./TotalMonthlyAmountUseCase/TotalMonthlyAmountUseCase";
 import { TotalConfirmedReservations } from "./TotalConfirmedReservationsUseCase/TotalConfirmedReservationsUseCase";
+import { MonthlyBookingsByChannelUseCase } from "./MonthlyBookingsByChannelUseCase/MonthlyBookingsByChannelUseCase";
 
 export class ReserveController {
   async create(request: Request, response: Response) {
@@ -154,6 +155,20 @@ export class ReserveController {
       const reserves = await totalConfirmedReservationsUseCase.execute();
 
       return response.status(201).send(reserves);
+    } catch (err) {
+      return response.status(500).send({ error: err.message });
+    }
+  }
+
+  async MonthlyBookingsByChannel(request: Request, response: Response) {
+    try {
+      const prismaReserveRepository = new PrismaReserveRepository();
+      const monthlyBookingsByChannelUseCase =
+        new MonthlyBookingsByChannelUseCase(prismaReserveRepository);
+
+      const reservers = await monthlyBookingsByChannelUseCase.execute();
+
+      return response.status(201).send(reservers);
     } catch (err) {
       return response.status(500).send({ error: err.message });
     }

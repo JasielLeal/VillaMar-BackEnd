@@ -164,4 +164,53 @@ export class PrismaReserveRepository implements IReserveRepository {
 
     return reserves.toString();
   }
+
+  async MonthlyBookingsByChannel(): Promise<
+    { company: string; value: number }[]
+  > {
+
+    const currentDate = new Date();
+    const firstDayOfMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      1
+    );
+    const lastDayOfMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      1
+    );
+
+    const totalOrdersByCompany = [
+      {
+        company: "WhatsApp",
+        value: await prisma.reserve.count({
+          where: {
+            FromWhere: "WhatsApp",
+            createdAt: { gte: firstDayOfMonth, lte: lastDayOfMonth },
+          },
+        }),
+      },
+      {
+        company: "Airbnb",
+        value: await prisma.reserve.count({
+          where: {
+            FromWhere: "Airbnb",
+            createdAt: { gte: firstDayOfMonth, lte: lastDayOfMonth },
+          },
+        }),
+      },
+      {
+        company: "Booking",
+        value: await prisma.reserve.count({
+          where: {
+            FromWhere: "Booking",
+            createdAt: { gte: firstDayOfMonth, lte: lastDayOfMonth },
+          },
+        }),
+      },
+    ];
+
+    return totalOrdersByCompany;
+  }
 }
