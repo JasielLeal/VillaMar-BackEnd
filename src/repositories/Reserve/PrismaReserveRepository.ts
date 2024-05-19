@@ -99,9 +99,6 @@ export class PrismaReserveRepository implements IReserveRepository {
   }
 
   async totalMonthlyAmount(): Promise<string> {
-
-    
-
     const startOfMonth = new Date(
       new Date().getFullYear(),
       new Date().getMonth(),
@@ -135,5 +132,36 @@ export class PrismaReserveRepository implements IReserveRepository {
     );
 
     return total.toString();
+  }
+
+  async TotalConfirmedReservations(): Promise<string> {
+    const startOfMonth = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      1
+    );
+    const endOfMonth = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+      999
+    ); // Fim do último dia do mês
+
+    const reserves = await prisma.reserve.count({
+      where: {
+        statusReseva: "Reservado",
+
+        // Filtrar as reservas criadas ou atualizadas no mês atual
+        createdAt: {
+          gte: startOfMonth,
+          lte: endOfMonth,
+        },
+      },
+    });
+
+    return reserves.toString();
   }
 }

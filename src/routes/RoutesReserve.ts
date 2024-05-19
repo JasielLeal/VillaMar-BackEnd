@@ -28,3 +28,9 @@ routesReserve.get(
   authenticated,
   reserveController.TotalMonthlyAmount
 );
+
+routesReserve.get(
+  "/totalreserves",
+  authenticated,
+  reserveController.TotalConfirmedReservations
+);

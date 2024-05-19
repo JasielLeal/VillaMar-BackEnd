@@ -38,6 +38,6 @@ export class CreateReserveUseCase {
       statusReseva,
     });
 
-    return reserve;
+    return {...reserve}
   }
 }
