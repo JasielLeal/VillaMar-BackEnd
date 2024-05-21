@@ -5,7 +5,13 @@ import { parseCurrencyToNumber } from "@/utils/NumberConverte";
 export class CreateExpenseUseCase {
   constructor(private expenseRepository: IExpenseRepository) {}
 
-  async execute({ createdAt, name, userId, value }: CreateExpenseDTO) {
+  async execute({
+    createdAt,
+    name,
+    userId,
+    value,
+    userName,
+  }: CreateExpenseDTO) {
     const newValue = parseCurrencyToNumber(value);
 
     const expense = await this.expenseRepository.create({
@@ -13,6 +19,7 @@ export class CreateExpenseUseCase {
       name,
       userId,
       value: newValue.toString(),
+      userName,
     });
 
     return expense;

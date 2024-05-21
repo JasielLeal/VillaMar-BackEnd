@@ -10,6 +10,7 @@ export class PrismaExpenseRepository implements IExpenseRepository {
         value: data.value,
         userId: data.userId,
         createdAt: data.createdAt,
+        userName: data.userName,
       },
     });
 
@@ -17,7 +18,6 @@ export class PrismaExpenseRepository implements IExpenseRepository {
   }
 
   async getAll(take: number, skip: number, month: string): Promise<Expense[]> {
-    console.log(month)
     let startDate: Date;
     let endDate: Date;
     const currentDate = new Date();
@@ -25,7 +25,7 @@ export class PrismaExpenseRepository implements IExpenseRepository {
     if (month) {
       // Se o mês foi fornecido, calcular o primeiro e último dia do mês
       startDate = new Date(`${currentYear}-${month}-01`);
-      
+
       endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1);
     } else {
       // Se o mês não foi fornecido, usar o mês atual
@@ -35,10 +35,7 @@ export class PrismaExpenseRepository implements IExpenseRepository {
         currentDate.getMonth(),
         1
       );
-      endDate = new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth() + 1,
-      );
+      endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1);
     }
 
     const expenses = await prisma.expense.findMany({

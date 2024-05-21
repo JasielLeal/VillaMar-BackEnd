@@ -4,4 +4,5 @@ export interface CreateExpenseDTO {
   value: string;
   createdAt: Date;
   userId: string;
+  userName: string;
 }

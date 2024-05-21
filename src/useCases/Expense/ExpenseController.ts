@@ -10,6 +10,7 @@ export class ExpenseController {
     try {
       const { createdAt, name, value }: CreateExpenseDTO = request.body;
       const userId = request.user.id;
+      const userName = request.user.name;
 
       const expenseRepository = new PrismaExpenseRepository();
       const createExpenseUseCase = new CreateExpenseUseCase(expenseRepository);
@@ -19,6 +20,7 @@ export class ExpenseController {
         name,
         userId,
         value,
+        userName,
       });
 
       return response.status(201).send(expense);

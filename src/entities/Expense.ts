@@ -6,6 +6,7 @@ export class Expense {
   public value: string;
   public createdAt: Date;
   public userId: string;
+  public userName: string
 
   constructor(props: Omit<Expense, "id">, id?: string) {
     Object.assign(this, props);

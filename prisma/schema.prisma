@@ -14,13 +14,13 @@ datasource db {
 }
 
 model User {
-  id         String     @id @default(uuid())
+  id         String    @id @default(uuid())
   name       String
   secondName String
-  email      String     @unique
+  email      String    @unique
   password   String
-  isOwner    String     @default("Admin")
-  createdAt  DateTime   @default(now())
+  isOwner    String    @default("Admin")
+  createdAt  DateTime  @default(now())
   reserves   Reserve[] // Relacionamento: Um usuário pode fazer várias reservas
   Expenses   Expense[]
 }
@@ -43,10 +43,11 @@ model Reserve {
 }
 
 model Expense {
-  id       String   @id @default(uuid())
-  name     String
-  value    String
+  id        String   @id @default(uuid())
+  name      String
+  value     String
   createdAt DateTime @default(now())
-  user     User     @relation(fields: [userId], references: [id]) // Relacionamento: Uma Despesa pertence a um usuário
-  userId   String
+  user      User     @relation(fields: [userId], references: [id]) // Relacionamento: Uma Despesa pertence a um usuário
+  userId    String
+  userName  String
 }
