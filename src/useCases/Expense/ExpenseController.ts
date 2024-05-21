@@ -4,6 +4,7 @@ import { CreateExpenseUseCase } from "./CreateExpenseUseCase/CreateExpenseUseCas
 import { CreateExpenseDTO } from "./CreateExpenseUseCase/CreateExpenseDTO";
 import { GetAllDTO } from "./GetAllUseCase/GetAllDTO";
 import { GetAllUseCase } from "./GetAllUseCase/GetAllUseCase";
+import { TotalMonthsExpensesUseCase } from "./TotalMonthsExpenses/TotalMonthsExpenses";
 
 export class ExpenseController {
   async CreateExpense(request: Request, response: Response) {
@@ -38,6 +39,23 @@ export class ExpenseController {
       const expense = await getAllUseCase.execute({ take, skip, month });
 
       return response.status(201).send(expense);
+    } catch (err) {
+      return response.status(500).send({ error: err.message });
+    }
+  }
+
+  async TotalMonthsExpenses(request: Request, response: Response) {
+    const { month } = request.query;
+
+    try {
+      const expenseRepository = new PrismaExpenseRepository();
+      const totalMonthsExpensesUseCase = new TotalMonthsExpensesUseCase(
+        expenseRepository
+      );
+
+      const expenses = await totalMonthsExpensesUseCase.execute({ month });
+
+      return response.status(201).send(expenses);
     } catch (err) {
       return response.status(500).send({ error: err.message });
     }

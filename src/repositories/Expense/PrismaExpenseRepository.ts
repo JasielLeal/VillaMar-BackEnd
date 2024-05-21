@@ -51,4 +51,44 @@ export class PrismaExpenseRepository implements IExpenseRepository {
 
     return expenses;
   }
+
+  async totalMonthsExpenses(month: string): Promise<string> {
+    let startDate: Date;
+    let endDate: Date;
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+
+    
+    if (month) {
+      startDate = new Date(`${currentYear}-${month}-01`);
+      
+      endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1);
+    } else {
+      startDate = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        1
+      );
+      endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1);
+    }
+
+    const expenses = await prisma.expense.findMany({
+      where: {
+        createdAt: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+      select: {
+        value: true,
+      },
+    });
+
+    const total = expenses.reduce(
+      (acc, expense) => acc + parseFloat(expense.value),
+      0
+    );
+
+    return total.toString();
+  }
 }

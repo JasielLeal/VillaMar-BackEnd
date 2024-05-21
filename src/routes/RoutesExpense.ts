@@ -7,3 +7,8 @@ export const routesExpense = Router();
 
 routesExpense.post("/create", authenticated, expenseController.CreateExpense);
 routesExpense.get("/month", authenticated, expenseController.GetAll);
+routesExpense.get(
+  "/totalexpense",
+  authenticated,
+  expenseController.TotalMonthsExpenses
+);
