@@ -22,7 +22,7 @@ model User {
   isOwner    String     @default("Admin")
   createdAt  DateTime   @default(now())
   reserves   Reserve[] // Relacionamento: Um usuário pode fazer várias reservas
-  Expenses   Expenses[]
+  Expenses   Expense[]
 }
 
 model Reserve {
@@ -42,11 +42,11 @@ model Reserve {
   userId       String
 }
 
-model Expenses {
+model Expense {
   id       String   @id @default(uuid())
   name     String
   value    String
-  cratedAt DateTime @default(now())
+  createdAt DateTime @default(now())
   user     User     @relation(fields: [userId], references: [id]) // Relacionamento: Uma Despesa pertence a um usuário
   userId   String
 }
