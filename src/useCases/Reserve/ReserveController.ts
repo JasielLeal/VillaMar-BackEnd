@@ -133,12 +133,13 @@ export class ReserveController {
 
   async TotalMonthlyAmount(request: Request, response: Response) {
     try {
+      const { month } = request.query;
       const prismaReserveRepository = new PrismaReserveRepository();
       const totalMonthlyAmount = new TotalMonthlyAmountUseCase(
         prismaReserveRepository
       );
 
-      const reserves = await totalMonthlyAmount.execute();
+      const reserves = await totalMonthlyAmount.execute({ month });
       return response.status(201).send(reserves);
     } catch (err) {
       return response.status(500).send({ error: err.message });

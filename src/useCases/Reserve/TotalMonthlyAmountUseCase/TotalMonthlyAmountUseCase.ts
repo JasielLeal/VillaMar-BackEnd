@@ -3,8 +3,8 @@ import { IReserveRepository } from "@/repositories/Reserve/IReserveRepository";
 export class TotalMonthlyAmountUseCase {
   constructor(private reserveRepository: IReserveRepository) {}
 
-  async execute() {
-    const reserve = await this.reserveRepository.totalMonthlyAmount();
+  async execute({month}) {
+    const reserve = await this.reserveRepository.totalMonthlyAmount(month);
 
     const reserveFormated = new Intl.NumberFormat("pt-BR", {
       style: "currency",

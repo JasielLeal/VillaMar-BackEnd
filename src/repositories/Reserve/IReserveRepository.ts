@@ -7,7 +7,7 @@ export interface IReserveRepository {
   updateStatus(id: string): Promise<Reserve | null>;
   delete(id: string): Promise<Reserve | null>;
   totalMonthlyBooking(): Promise<string>;
-  totalMonthlyAmount(): Promise<string>;
+  totalMonthlyAmount(month: string): Promise<string>;
   TotalConfirmedReservations(): Promise<string>;
   MonthlyBookingsByChannel(): Promise<{ company: string; value: number }[]>;
 }
