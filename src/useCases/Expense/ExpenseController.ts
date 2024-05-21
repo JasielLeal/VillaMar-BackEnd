@@ -2,6 +2,8 @@ import { PrismaExpenseRepository } from "@/repositories/Expense/PrismaExpenseRep
 import { Request, Response } from "express";
 import { CreateExpenseUseCase } from "./CreateExpenseUseCase/CreateExpenseUseCase";
 import { CreateExpenseDTO } from "./CreateExpenseUseCase/CreateExpenseDTO";
+import { GetAllDTO } from "./GetAllUseCase/GetAllDTO";
+import { GetAllUseCase } from "./GetAllUseCase/GetAllUseCase";
 
 export class ExpenseController {
   async CreateExpense(request: Request, response: Response) {
@@ -18,6 +20,20 @@ export class ExpenseController {
         userId,
         value,
       });
+
+      return response.status(201).send(expense);
+    } catch (err) {
+      return response.status(500).send({ error: err.message });
+    }
+  }
+
+  async GetAll(request: Request, response: Response) {
+    try {
+      const { take, skip, month } = request.query;
+      const prismaExpenseRepository = new PrismaExpenseRepository();
+      const getAllUseCase = new GetAllUseCase(prismaExpenseRepository);
+
+      const expense = await getAllUseCase.execute({ take, skip, month });
 
       return response.status(201).send(expense);
     } catch (err) {
