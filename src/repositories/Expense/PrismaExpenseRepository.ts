@@ -58,10 +58,9 @@ export class PrismaExpenseRepository implements IExpenseRepository {
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
 
-    
     if (month) {
       startDate = new Date(`${currentYear}-${month}-01`);
-      
+
       endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1);
     } else {
       startDate = new Date(
@@ -90,5 +89,25 @@ export class PrismaExpenseRepository implements IExpenseRepository {
     );
 
     return total.toString();
+  }
+
+  async findById(id: string): Promise<Expense> {
+    const expense = await prisma.expense.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return expense;
+  }
+
+  async delete(id: string): Promise<Expense> {
+    const expense = await prisma.expense.delete({
+      where: {
+        id,
+      },
+    });
+
+    return expense;
   }
 }

@@ -7,6 +7,7 @@ export const routesExpense = Router();
 
 routesExpense.post("/create", authenticated, expenseController.CreateExpense);
 routesExpense.get("/month", authenticated, expenseController.GetAll);
+routesExpense.delete("/delete", authenticated, expenseController.DeleteExpense);
 routesExpense.get(
   "/totalexpense",
   authenticated,

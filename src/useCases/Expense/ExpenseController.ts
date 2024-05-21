@@ -2,9 +2,10 @@ import { PrismaExpenseRepository } from "@/repositories/Expense/PrismaExpenseRep
 import { Request, Response } from "express";
 import { CreateExpenseUseCase } from "./CreateExpenseUseCase/CreateExpenseUseCase";
 import { CreateExpenseDTO } from "./CreateExpenseUseCase/CreateExpenseDTO";
-import { GetAllDTO } from "./GetAllUseCase/GetAllDTO";
 import { GetAllUseCase } from "./GetAllUseCase/GetAllUseCase";
 import { TotalMonthsExpensesUseCase } from "./TotalMonthsExpenses/TotalMonthsExpenses";
+import { ErrorExpenseAlreadyNotExist } from "@/erros/Expense/ErrorExpenseAlreadyNotExist";
+import { DeleteExpenseUseCase } from "./DeleteExpenseUseCase/DeleteExpenseUseCase";
 
 export class ExpenseController {
   async CreateExpense(request: Request, response: Response) {
@@ -57,6 +58,25 @@ export class ExpenseController {
 
       return response.status(201).send(expenses);
     } catch (err) {
+      return response.status(500).send({ error: err.message });
+    }
+  }
+
+  async DeleteExpense(request: Request, response: Response) {
+    try {
+      const { id } = request.body;
+      const prismaExpenseRepository = new PrismaExpenseRepository();
+      const deleteExpenseUseCase = new DeleteExpenseUseCase(
+        prismaExpenseRepository
+      );
+
+      const expense = await deleteExpenseUseCase.execute({id});
+
+      return response.status(201).send(expense);
+    } catch (err) {
+      if (err instanceof ErrorExpenseAlreadyNotExist) {
+        return response.status(400).send({ error: err.message });
+      }
       return response.status(500).send({ error: err.message });
     }
   }
